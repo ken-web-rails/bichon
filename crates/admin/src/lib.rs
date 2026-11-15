@@ -37,6 +37,7 @@ pub mod migrate_v1;
 pub mod reindex;
 pub mod reset;
 pub mod restore;
+pub mod stats;
 
 #[derive(Parser, Debug)]
 #[command(
@@ -62,6 +63,10 @@ pub enum AdminCommand {
     /// Required after a tokenizer/format change (the old index terms no longer
     /// match new queries). Reads the old indexes as an immutable source.
     Reindex(reindex::ReindexArgs),
+    /// Count archived emails per year, per month and per sender, then exit.
+    /// Reads the Tantivy envelope index (where email metadata lives) read-only,
+    /// so it is safe to run while the server is up.
+    Stats(stats::StatsArgs),
 }
 
 /// Interactive main menu. `verify_only` makes the restore entries run the
